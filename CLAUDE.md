@@ -21,7 +21,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - 家族ネタ（妻氏・娘氏・推し活）
   - 自虐を少し混ぜる
   - ロジックで整理する
-  - 最後に「自戒も込めて」で締める
 
 ## 入力データ
 Googleスプレッドシートから以下を受け取る：
