@@ -94,11 +94,29 @@ def _build_posts(manga):
 def health():
     sid = os.environ.get("SPREADSHEET_ID", "NOT SET")
     has_creds = bool(os.environ.get("GOOGLE_CREDENTIALS_JSON"))
+    x_key = os.environ.get("X_API_KEY", "")
+    x_secret = os.environ.get("X_API_SECRET", "")
+    x_token = os.environ.get("X_ACCESS_TOKEN", "")
+    x_token_secret = os.environ.get("X_ACCESS_TOKEN_SECRET", "")
     return jsonify({
         "spreadsheet_id": sid,
         "credentials_json_set": has_creds,
         "credentials_json_length": len(os.environ.get("GOOGLE_CREDENTIALS_JSON", "")),
+        "x_api_key_length": len(x_key),
+        "x_api_secret_length": len(x_secret),
+        "x_access_token_length": len(x_token),
+        "x_access_token_secret_length": len(x_token_secret),
+        "x_access_token_prefix": x_token[:10] if x_token else "NOT SET",
     })
+
+
+@app.route("/verify-x")
+def verify_x():
+    try:
+        me = _x_client().get_me()
+        return jsonify({"ok": True, "user": me.data.username})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 400
 
 
 @app.route("/generate", methods=["POST"])
