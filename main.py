@@ -90,6 +90,17 @@ def _build_posts(manga):
     return json.loads(raw)
 
 
+@app.route("/health")
+def health():
+    sid = os.environ.get("SPREADSHEET_ID", "NOT SET")
+    has_creds = bool(os.environ.get("GOOGLE_CREDENTIALS_JSON"))
+    return jsonify({
+        "spreadsheet_id": sid,
+        "credentials_json_set": has_creds,
+        "credentials_json_length": len(os.environ.get("GOOGLE_CREDENTIALS_JSON", "")),
+    })
+
+
 @app.route("/generate", methods=["POST"])
 def generate():
     """投稿案を3件生成して返す（X には投稿しない）"""
